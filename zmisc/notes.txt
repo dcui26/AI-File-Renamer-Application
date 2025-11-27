@@ -1,0 +1,77 @@
+#get the location of THIS file (pdf_methods.py)
+#__file__ is a special variable which tells you the path to the file thats running
+#.resolve() makes the path absolute on whoevers computer you use
+
+/////current_file_path = Path(__file__).resolve()/////
+
+#Result: .../file_renamer/backend/pdf_utils.py
+
+#each .parent goes up a level, so we basically
+#exit pdf_methods.py, then exit backend and are in file_renamer
+
+/////project_root = current_file_path.parent.parent/////
+
+#Result: .../file_renamer/
+
+#now from our file_renamer, we enter poppler then bin
+#now we can access the necessary exe files
+
+/////POPPLER_BIN_PATH = project_root / "poppler" / "bin"/////
+
+#Result: .../file_renamer/poppler/bin
+
+#this is where i downloaded poppler from
+https://github.com/oschwartz10612/poppler-windows/releases/tag/v25.11.0-0
+
+
+edit:
+        #clean the text in case of ai adds in extra stuff, just an extra safety
+        #sometimes ai returns with ```json{...}``` or other text garbage
+        if raw_text.startswith("```"):
+            #re.DOTALL means across all lines
+            #re.search returns a "match" object
+            match = re.search(r'\{.*\}', raw_text, re.DOTALL)
+
+            #did we find {}? if so lets set "{...}"" to be raw_text
+            if match:
+                raw_text = match.group(0)
+            else:
+                print("Could not find any JSON in the AI output.")
+                return {"date": "00-00-0000", "name": "Unknown"}
+        
+i decided to just remove the outer if statement entirely
+
+another note:
+if we wanted to save tokens and allow for faster processing, if we always had the pictures
+scanned in such that the name and date were in the same location on the upper half,
+we could crop the images so we spend less tokens when we send the image, and thus
+the image can get processed faster
+to do this:
+width, height = pil_image.size
+cropped_img = pil_image.crop((0, 0, width, height // 2))
+
+plug in cropped_img to our extract_image_data, so ai only sees the top half of the image
+(left, upper, right, lower)
+
+if is_pdf:
+                    images = convert_pdf_to_images(file_path)
+                    num_pages = len(images)
+                    for j in range(num_pages):
+                        original_img = images[j]
+
+                        #crop image
+                        width, height = original_img.size
+                        cropped_img = original_img.crop((0, 0, width, height // 2))
+
+                        #get our dictionary from ai_reader.py
+                        data = extract_image_data(cropped_img)
+
+                        #get our new path from file_safety.py
+                        newpath = generate_path(
+                            processed_files, 
+                            data["date"], 
+                            data["name"], 
+                            ".jpg"
+                        )
+                        original_img.save(newpath, "JPEG", quality=95)
+                        self.logMessage(f"Saved: {newpath.name}")

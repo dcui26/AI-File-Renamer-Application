@@ -1,0 +1,29 @@
+INSTRUCTIONS:
+Before you are able to run this program, you are required to install python.
+Visit python.org and go to the downloads tab.
+Before clicking install, make sure to check the box that says "Add python to PATH"
+Then you will need to install the necessary libraries in order for the code to run.
+
+You need to create an API key in google ai studio, the code is only compatible with gemini.
+You will need to manually edit that into config.py, by pasting it in the quotation marks of the
+variable named API_KEY. It will look like: API_KEY = ""
+
+You can install them in command prompt using these commands:
+    - pip install customtkinter
+    - pip install pdf2image
+    - pip install Pillow
+    - pip install google-generativeai
+
+Additionally, you will need to install poppler, which you can find on github.
+Once installed, move the folder inside called "bin" inside of your main code file.
+
+Next, locate the path to where the file_renamer folder project is stored, and enter the folder with the command:
+cd C:\....\file_renamer
+
+Now you can run the program by typing this into command prompt:
+python run.py
+
+In this program you will see a box with logs, a select folder button, a start and a stop button.
+The select folder button allows you to select a folder you would like to have the contents renamed.
+Once you have selected the folder, selecting the start button will begin the renaming process.
+The stop button just stops the processing.
