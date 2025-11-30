@@ -1,6 +1,6 @@
 from pathlib import Path
 
-API_KEY = "AIzaSyCY5kBp1hhBykP25bSUwGuRvzWPtBeZXXE"
+API_KEY = ""
 MODEL = "gemini-2.5-flash"
 
 current_file_path = Path(__file__).resolve()  
